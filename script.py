@@ -27,7 +27,7 @@ def download_image(img_link):
 
     if img_link is not None:  # ensure that we got a valid full-size jpeg background image.
         img = requests.get(img_link)    # download image.
-        img_file = open(os.path.join(current_dir, 'img', img_link.split('/')[-1]), 'wb')  # create file named with last part of the url.
+        img_file = open(os.path.join(current_dir, 'img', img_link.split('/')[-1].split('&')[0].split('=')[-1]), 'wb')  # create file named with last part of the url.
         img_file.write(img.content) # write bytes to file.
         img_file.close()
         return img_file.name
@@ -43,7 +43,7 @@ def set_wallpaper():
     path = os.path.join(current_dir, 'img', name)  # get image full path.
 
     # create command string to change last-image attribute which corresponds to desktop current background.
-    cmd_set_last_image = 'xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0/last-image -s {0}'.format(path)
+    cmd_set_last_image = 'xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVirtual1/workspace0/last-image -s {0}'.format(path)
 
     # execute generated command above using os module although this can be done using subprocess module.
     os.system(cmd_set_last_image)
